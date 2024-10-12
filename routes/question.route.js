@@ -45,7 +45,7 @@ router.get(
 // POST Signup
 router.post(
   "/add",
-  authorize("admin"),
+  // authorize("admin"),
   validate(addQuestionSchema),
   question.postAddQuestionController
 );

@@ -12,18 +12,15 @@ const testSchema = new Schema(
       ref: "User",
       required: true,
     },
-    studentName: {
-      type: String,
-    },
-    studentMatricNumber: {
-      type: String,
-    },
-    courseId: {
+    levelId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Course",
+      ref: "Level",
       required: true,
     },
-    courseTitle: {
+    levelTitle: {
+      type: String,
+    },
+    user: {
       type: String,
     },
     questions: [],

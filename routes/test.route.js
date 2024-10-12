@@ -74,7 +74,7 @@ router.delete(
 router.get(
   "/by-course",
   // authorize("admin"),
-  test.getAllTestsByCourseController
+  test.getAllTestsByLevelController
 );
 
 module.exports = router;

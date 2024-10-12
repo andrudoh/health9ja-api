@@ -32,6 +32,7 @@ router.get(
 // GET All Topics
 router.get(
   "/all",
+  isAuthenticated,
   // authorize("admin"),
   topic.getAllTopicsController
 );
@@ -39,6 +40,7 @@ router.get(
 // GET One Topics
 router.get(
   "/one",
+  isAuthenticated,
   // authorize("admin"),
   topic.getOneTopicController
 );
@@ -46,6 +48,7 @@ router.get(
 // POST Signup
 router.post(
   "/add",
+  isAuthenticated,
   authorize("admin"),
   // validate(addTopicSchema),
   multerUploads.single("image"),
@@ -55,6 +58,7 @@ router.post(
 // PUT Signup
 router.put(
   "/edit",
+  isAuthenticated,
   authorize("admin"),
   // validate(editTopicSchema),
   multerUploads.single("image"),
@@ -62,6 +66,11 @@ router.put(
 );
 
 // DELETE Signup
-router.delete("/delete", authorize("admin"), topic.postDeleteTopicController);
+router.delete(
+  "/delete",
+  isAuthenticated,
+  authorize("admin"),
+  topic.postDeleteTopicController
+);
 
 module.exports = router;

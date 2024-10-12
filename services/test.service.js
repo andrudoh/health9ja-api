@@ -30,25 +30,25 @@ exports.oneTestService = async (id) => {
 };
 
 // Add
-exports.addTestService = async (LevelId, user) => {
+exports.addTestService = async (levelId, user) => {
   try {
     const getUser = await userModel.findOne({
       _id: user,
     });
 
-    const name = `${getUser.firstname} ${getUser.lastname}`;
+    const name = `${getUser.firstName} ${getUser.lastName}`;
 
     const questions = await questionModel.find({
-      levelId: LevelId,
+      levelId: levelId,
     });
 
     const level = await levelModel.findOne({
-      _id: LevelId,
+      _id: levelId,
     });
 
     // check if user already took the test for the level
     const testExist = await testModel.findOne({
-      levelId: LevelId,
+      levelId: levelId,
       userId: user,
     });
     if (testExist) {
@@ -99,16 +99,15 @@ exports.addTestService = async (LevelId, user) => {
     );
 
     // Trim the array to ensure it doesn't exceed 30 elements
-    // if (testQuestions.length > 30) {
-    //   testQuestions.splice(30);
-    // }
+    if (testQuestions.length > 30) {
+      testQuestions.splice(30);
+    }
 
     // create test
     const test = new testModel({
       userId: user,
-      studentName: name,
-      studentMatricNumber: getUser.matric_no,
-      levelId: LevelId,
+      user: name,
+      levelId: levelId,
       levelTitle: level.name,
       questions: testQuestions,
       totalQuestions: testQuestions.length,
