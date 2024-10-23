@@ -3,12 +3,13 @@ const questionModel = require("../models/question.model");
 
 // All
 exports.allQuestionsService = async (id) => {
+  console.log("🚀 ~ exports.allQuestionsService= ~ id:", id);
   try {
-    const question = await questionModel.find({ courseId: id });
-    //  if (!question) {
-    //    return { error: new Error("Error: Questions not found") };
-    //  }
-    return question;
+    const questions = await questionModel.find({ levelId: id });
+    if (!questions) {
+      return { error: new Error("Error: Questions not found") };
+    }
+    return questions;
   } catch (error) {
     return { error: new Error(error) };
   }

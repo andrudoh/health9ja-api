@@ -1,5 +1,5 @@
 // Models
-const topicModel = require("../models/knowledgebase.model");
+const topicModel = require("../models/topic.model");
 
 // All
 exports.allTopicsService = async () => {

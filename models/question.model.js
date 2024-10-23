@@ -12,6 +12,11 @@ const questionSchema = new Schema(
       ref: "Level",
       required: true,
     },
+    topicId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Level",
+      required: true,
+    },
     question: {
       type: String,
       required: true,
@@ -26,18 +31,18 @@ const questionSchema = new Schema(
     },
     answer_c: {
       type: String,
-      required: true,
+      // required: true,
     },
     answer_d: {
       type: String,
-      required: true,
+      // required: true,
     },
     correct_answer: {
       type: String,
       required: true,
     },
     media: {
-      type: Object,
+      type: String,
     },
     // chosenAnswer: {
     //   type: mongoose.Schema.Types.ObjectId,

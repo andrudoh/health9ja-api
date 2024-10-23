@@ -1,6 +1,6 @@
 // servcies
 const { uploadImageSingle } = require("../middlewares/cloudinary");
-const topicServices = require("../services/knowledgebase.service");
+const topicServices = require("../services/topic.service");
 
 // utils
 const { sendError, sendResponse } = require("../utils/response.util");

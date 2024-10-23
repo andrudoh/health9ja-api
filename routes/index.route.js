@@ -3,7 +3,7 @@ const authRouter = require("./auth.route");
 const adminRouter = require("./admin.route");
 const levelRouter = require("./level.route");
 const questionRouter = require("./question.route");
-const knowledgebaseRouter = require("./knowledgebase.route");
+const topicRouter = require("./topic.route");
 const answerRouter = require("./answer.route");
 const testRouter = require("./test.route");
 const userRouter = require("./user.route");
@@ -20,7 +20,7 @@ module.exports = function (app) {
   app.use("/api/auth", authRouter);
   app.use("/api/levels", levelRouter);
   app.use("/api/questions", questionRouter);
-  app.use("/api/topics", knowledgebaseRouter);
+  app.use("/api/topics", topicRouter);
   app.use("/api/answers", answerRouter);
   app.use("/api/tests", testRouter);
   app.use("/api/users", userRouter);

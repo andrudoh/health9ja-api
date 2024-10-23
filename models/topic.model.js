@@ -4,14 +4,18 @@ const mongoose = require("mongoose");
 // Stuff
 const Schema = mongoose.Schema;
 
-// Knowledgebase Schema
-const knowledgebaseSchema = new Schema(
+// Topic Schema
+const topicSchema = new Schema(
   {
     title: {
       type: String,
       required: true,
     },
     description: {
+      type: String,
+      required: true,
+    },
+    body: {
       type: String,
       required: true,
     },
@@ -24,4 +28,4 @@ const knowledgebaseSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Knowledgebase", knowledgebaseSchema);
+module.exports = mongoose.model("Topic", topicSchema);

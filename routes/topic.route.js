@@ -4,16 +4,13 @@ const express = require("express");
 const path = require("path");
 
 // controller
-const topic = require("../controllers/knowledgebase.controller");
+const topic = require("../controllers/topic.controller");
 
 // Stuff
 const router = express.Router();
 
 // schemas
-const {
-  addTopicSchema,
-  editTopicSchema,
-} = require("../schemas/knowledgebase.schema");
+const { addTopicSchema, editTopicSchema } = require("../schemas/topic.schema");
 
 // middleware
 const isAuthenticated = require("../middlewares/isAuthenticated");
