@@ -53,7 +53,7 @@ router.post(
 // PUT Signup
 router.put(
   "/edit",
-  authorize("admin"),
+  // authorize("admin"),
   validate(editQuestionSchema),
   question.postEditQuestionController
 );
@@ -61,7 +61,7 @@ router.put(
 // DELETE Signup
 router.delete(
   "/delete",
-  authorize("admin"),
+  // authorize("admin"),
   question.postDeleteQuestionController
 );
 

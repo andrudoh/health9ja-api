@@ -48,6 +48,7 @@ exports.editTopicService = async (details, id) => {
     topic.title = details.title;
     topic.description = details.description;
     topic.image = details.image;
+    topic.body = details.body;
     await topic.save();
     return topic;
   } catch (error) {

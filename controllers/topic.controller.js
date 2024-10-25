@@ -116,17 +116,14 @@ module.exports = {
 
   // Edit
   postEditTopicController: async (req, res, next) => {
+    console.log("🚀 ~ postEditTopicController: ~ req.body: ", req.body.body);
     try {
       const { id } = req.query;
-      let image = "";
+      let image = req.body.image;
       if (req.file) {
         // send image to Cloudinary
         image = await uploadImageSingle(req, res, next);
       }
-      //  const topic = await topicServices.addTopicService({
-      //    ...req.body,
-      //    image,
-      //  });
 
       const topic = await topicServices.editTopicService(
         { ...req.body, image },
