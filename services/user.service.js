@@ -14,6 +14,7 @@ exports.allUsersService = async () => {
 
 // One
 exports.oneUserService = async (id) => {
+  console.log("🚀 ~ exports.oneUserService= ~ id:", id);
   try {
     const user = await userModel.findById({ _id: id });
     if (!user) {

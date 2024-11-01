@@ -26,16 +26,16 @@ router.get(
 );
 
 // POST Signup
-router.post("/signup", validate(signUpSchema), auth.postSignupController);
+router.post("/register", validate(signUpSchema), auth.postSignupController);
 
 // GET Verify email
 router.get("/verify", auth.getVerifyEmailController);
 
 // POST Forgot password
-router.post("/forgot", auth.postForgotPasswordController);
+router.post("/forgot-password", auth.postForgotPasswordController);
 
 // POST reset password
-router.post("/reset", auth.postResetPasswordController);
+router.post("/reset-password", auth.postResetPasswordController);
 
 // POST Login
 router.post("/login", validate(loginSchema), auth.postLoginController);

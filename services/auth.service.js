@@ -23,8 +23,8 @@ exports.signupService = async (details) => {
   console.log("🚀 ~ exports.signupService= ~ details:", details);
   try {
     // Run Hapi/Joi validation
-    const { error } = await registerValidation.validateAsync(details);
-    if (error) return res.status(400).send(error.details[0].message);
+    // const { error } = await registerValidation.validateAsync(details);
+    // if (error) return res.status(400).send(error.details[0].message);
 
     // check for user
     if (details.email) {
