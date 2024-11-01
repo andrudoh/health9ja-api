@@ -40,7 +40,7 @@ router.get(
 );
 
 // POST Signup
-router.post(
+router.get(
   "/add",
   // authorize("admin", "user"),
   //   validate(addTestSchema),

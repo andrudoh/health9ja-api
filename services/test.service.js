@@ -31,10 +31,19 @@ exports.oneTestService = async (id) => {
 
 // Add
 exports.addTestService = async (levelId, user) => {
+  console.log("🚀 ~ exports.addTestService= ~ levelId, user:", levelId, user);
   try {
     const getUser = await userModel.findOne({
       _id: user,
     });
+
+    if (!getUser) {
+      return { error: new Error("Error: User not found") };
+    }
+
+    if (getUser.role === "admin") {
+      return { error: new Error("Error: Admin cannot take test") };
+    }
 
     const name = `${getUser.firstName} ${getUser.lastName}`;
 
@@ -46,13 +55,21 @@ exports.addTestService = async (levelId, user) => {
       _id: levelId,
     });
 
+    if (!level) {
+      return { error: new Error("Error: Level not found") };
+    }
+
+    console.log("🚀 ~ exports.addTestService= ~ level:", level);
+
     // check if user already took the test for the level
     const testExist = await testModel.findOne({
       levelId: levelId,
+      testEnded: false,
       userId: user,
     });
     if (testExist) {
-      return { error: new Error("Student already sat for this test") };
+      return testExist;
+      // return { error: new Error("Student already sat for this test") };
     }
 
     let testQuestions = [];
@@ -72,11 +89,6 @@ exports.addTestService = async (levelId, user) => {
 
     await Promise.all(
       shuffledQuestions.map(async (item) => {
-        // if (testQuestions.length < 30) {
-        // const answer = await answerModel.find({
-        //   questionId: item.id,
-        // });
-        // const shuffledAnswers = shuffleArray(answer);
         const question = {
           question: item,
           // answers: shuffledAnswers,
@@ -99,8 +111,8 @@ exports.addTestService = async (levelId, user) => {
     );
 
     // Trim the array to ensure it doesn't exceed 30 elements
-    if (testQuestions.length > 30) {
-      testQuestions.splice(30);
+    if (testQuestions.length > 15) {
+      testQuestions.splice(15);
     }
 
     // create test
@@ -119,6 +131,7 @@ exports.addTestService = async (levelId, user) => {
     await test.save();
     return test;
   } catch (error) {
+    console.log("🚀 ~ exports.addTestService= ~ error:", error);
     return { error: new Error(error) };
   }
 };

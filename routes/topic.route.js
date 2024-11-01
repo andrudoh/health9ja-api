@@ -46,7 +46,7 @@ router.get(
 router.post(
   "/add",
   // isAuthenticated,
-  // authorize("admin"),
+  authorize("admin"),
   // validate(addTopicSchema),
   multerUploads.single("image"),
   topic.postAddTopicController
@@ -56,7 +56,7 @@ router.post(
 router.put(
   "/edit",
   // isAuthenticated,
-  // authorize("admin"),
+  authorize("admin"),
   // validate(editTopicSchema),
   multerUploads.single("image"),
   topic.postEditTopicController
@@ -66,7 +66,7 @@ router.put(
 router.delete(
   "/delete",
   // isAuthenticated,
-  // authorize("admin"),
+  authorize("admin"),
   topic.postDeleteTopicController
 );
 

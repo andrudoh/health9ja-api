@@ -42,7 +42,7 @@ router.get(
 // POST Signup
 router.post(
   "/add",
-  // authorize("admin"),
+  authorize("admin"),
   validate(addLevelSchema),
   level.postAddLevelController
 );
@@ -50,16 +50,12 @@ router.post(
 // PUT Signup
 router.put(
   "/edit",
-  // authorize("admin"),
+  authorize("admin"),
   validate(editLevelSchema),
   level.postEditLevelController
 );
 
 // DELETE Signup
-router.delete(
-  "/delete",
-  // authorize("admin"),
-  level.postDeleteLevelController
-);
+router.delete("/delete", authorize("admin"), level.postDeleteLevelController);
 
 module.exports = router;
