@@ -42,6 +42,7 @@ router.get(
 // POST Signup
 router.get(
   "/add",
+  // authorize("user"),
   // authorize("admin", "user"),
   //   validate(addTestSchema),
   test.postAddTestController
@@ -50,7 +51,7 @@ router.get(
 // PUT Signup
 router.post(
   "/answer",
-  // authorize("admin", "user"),
+  // authorize("user"),
   //   validate(editTestSchema),
   test.postAnswerTestController
 );
@@ -66,6 +67,7 @@ router.get(
 // DELETE Signup
 router.delete(
   "/delete",
+  // authorize("admin"),
   // authorize("admin", "user"),
   test.postDeleteTestController
 );

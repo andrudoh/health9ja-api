@@ -49,6 +49,7 @@ module.exports = {
   //   Verify email
   getVerifyEmailController: async (req, res, next) => {
     try {
+      console.log("🚀 ~ getVerifyEmailController: ~ req.query:", req.query);
       const verifyEmail = await authServices.verifyEmailService(req.query);
 
       if (verifyEmail?.error) {

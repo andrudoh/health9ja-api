@@ -132,6 +132,8 @@ exports.signupService = async (details) => {
 
 // verify email
 exports.verifyEmailService = async ({ id, emailToken }) => {
+  console.log("🚀 ~ exports.verifyEmailService= ~ emailToken:", emailToken);
+  console.log("🚀 ~ exports.verifyEmailService= ~ id:", id);
   //   check if user exist
   const user = await User.findOne({ _id: id });
   console.log("🚀 ~ user:", user);
