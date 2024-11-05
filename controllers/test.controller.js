@@ -104,6 +104,8 @@ module.exports = {
   // Answer Question
   postAnswerTestController: async (req, res, next) => {
     try {
+      console.log("🚀 ~ postAnswerTestController: ~ req.query:", req.query);
+      console.log("🚀 ~ postAnswerTestController: ~ req.body:", req.body);
       const { testId, answerId, index, questionId } = req.query;
 
       const { answer } = req.body;
@@ -115,6 +117,7 @@ module.exports = {
         // answerId,
         index
       );
+      console.log("🚀 ~ postAnswerTestController: ~ test:", test);
 
       if (test?.error) {
         return sendError(res, 400, test?.error?.message);
