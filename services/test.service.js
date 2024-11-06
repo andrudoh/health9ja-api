@@ -145,6 +145,7 @@ exports.answerTestService = async (
 ) => {
   try {
     const index = parseInt(questionIndex);
+    console.log("🚀 ~ index:", index);
     const test = await testModel.findOne({ _id: testId });
 
     if (!test) {
@@ -162,7 +163,7 @@ exports.answerTestService = async (
 
     const totalQuestions = test.totalQuestions; // Retrieve totalQuestions from the test data
 
-    if (index >= 0 && index < test.questions.length) {
+    if (index >= 0 && index <= test.questions.length - 1) {
       // const question = test.questions[index];
 
       // if (question.correct_answer === answer) {}
@@ -203,9 +204,15 @@ exports.answerTestService = async (
         test.attemptedQuestions = attempted;
 
         // Mark the test as ended when all questions have been attempted
-        // if (test.attemptedQuestions === totalQuestions) {
-        //   test.testEnded = true;
-        // }
+        if (test.attemptedQuestions >= totalQuestions) {
+          test.testEnded = true;
+        }
+
+        // Mark the test as ended when all questions have been attempted
+        if (index === test.questions.length - 1) {
+          console.log("END TEST");
+          test.testEnded = true;
+        }
 
         // Save the updated test
         await test.save();
@@ -235,6 +242,17 @@ exports.answerTestService = async (
         });
 
         test.attemptedQuestions = attempted;
+
+        // Mark the test as ended when all questions have been attempted
+        if (test.attemptedQuestions >= totalQuestions) {
+          test.testEnded = true;
+        }
+
+        // Mark the test as ended when all questions have been attempted
+        if (index === test.questions.length - 1) {
+          console.log("END TEST");
+          test.testEnded = true;
+        }
 
         // Save the updated test
         await test.save();
