@@ -204,15 +204,15 @@ exports.answerTestService = async (
         test.attemptedQuestions = attempted;
 
         // Mark the test as ended when all questions have been attempted
-        if (test.attemptedQuestions >= totalQuestions) {
-          test.testEnded = true;
-        }
+        // if (test.attemptedQuestions >= totalQuestions) {
+        //   test.testEnded = true;
+        // }
 
         // Mark the test as ended when all questions have been attempted
-        if (index === test.questions.length - 1) {
-          console.log("END TEST");
-          test.testEnded = true;
-        }
+        // if (index === test.questions.length - 1) {
+        //   console.log("END TEST");
+        //   test.testEnded = true;
+        // }
 
         // Save the updated test
         await test.save();
@@ -244,15 +244,15 @@ exports.answerTestService = async (
         test.attemptedQuestions = attempted;
 
         // Mark the test as ended when all questions have been attempted
-        if (test.attemptedQuestions >= totalQuestions) {
-          test.testEnded = true;
-        }
+        // if (test.attemptedQuestions >= totalQuestions) {
+        //   test.testEnded = true;
+        // }
 
         // Mark the test as ended when all questions have been attempted
-        if (index === test.questions.length - 1) {
-          console.log("END TEST");
-          test.testEnded = true;
-        }
+        // if (index === test.questions.length - 1) {
+        //   console.log("END TEST");
+        //   test.testEnded = true;
+        // }
 
         // Save the updated test
         await test.save();
