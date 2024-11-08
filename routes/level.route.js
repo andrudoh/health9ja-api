@@ -52,7 +52,7 @@ router.put(
   "/edit",
   // authorize("admin"),
   validate(editLevelSchema),
-  level.postEditLevelController
+  level.putEditLevelController
 );
 
 // DELETE Signup
