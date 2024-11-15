@@ -101,8 +101,6 @@ module.exports = {
   putEditLevelController: async (req, res, next) => {
     try {
       const { id } = req.query;
-      console.log("🚀 ~ postEditLevelController: ~ id:", id);
-      console.log("🚀 ~ postEditLevelController: ~ req.body:", req.body);
       const level = await levelServices.editLevelService(req.body, id);
 
       if (level?.error) {

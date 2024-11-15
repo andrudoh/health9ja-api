@@ -53,6 +53,10 @@ module.exports = {
       const verifyEmail = await authServices.verifyEmailService(req.query);
 
       if (verifyEmail?.error) {
+        console.log(
+          "🚀 ~ getVerifyEmailController: ~ verifyEmail?.error:",
+          verifyEmail?.error
+        );
         return sendError(res, 400, verifyEmail?.error?.message);
       }
 

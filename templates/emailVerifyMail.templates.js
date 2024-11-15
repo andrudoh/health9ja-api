@@ -1,4 +1,4 @@
-const emailVerifyMail = (id, user, token) => {
+const emailVerifyMail = (id, user, token, client_base_url) => {
   return `
        
 	<!DOCTYPE html>
@@ -356,7 +356,7 @@ ul.social li{
 							
 							<h4>You recently began registration on flametrivia.co, please use the link below to complete your registration.
 							<br/>
-							 <h5><a href='https://flame-trivia-app.vercel.app/auth/verify?id=${id}&emailToken=${token}'>Click here to complete registration</a></h5>
+							 <h5><a href='${client_base_url}/auth/verify?id=${id}&emailToken=${token}'>Click here to complete registration</a></h5>
 							<br><br>						
             			</div>
             		</td>

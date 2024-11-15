@@ -18,6 +18,8 @@ const sendMail = require("../utils/mailer.util");
 const emailVerifyMail = require("../templates/emailVerifyMail.templates");
 const resetPasswordMail = require("../templates/resetPasswordMail.templates");
 
+const client_base_url = process.env.CLIENT_BASE_URL;
+
 // SIGNUP
 exports.signupService = async (details) => {
   console.log("🚀 ~ exports.signupService= ~ details:", details);
@@ -119,7 +121,12 @@ exports.signupService = async (details) => {
     const mailOptions = {
       to: user.email,
       subject: "Email verification mail",
-      html: emailVerifyMail(user._id, user.firstName, emailVerificationToken),
+      html: emailVerifyMail(
+        user._id,
+        user.firstName,
+        emailVerificationToken,
+        client_base_url
+      ),
     };
 
     sendMail(mailOptions);
@@ -214,7 +221,12 @@ exports.forgotPasswordService = async ({ email }) => {
     const mailOptions = {
       to: user.email,
       subject: "Password Reset Mail",
-      html: resetPasswordMail(user._id, user.firstName, resetToken),
+      html: resetPasswordMail(
+        user._id,
+        user.firstName,
+        resetToken,
+        client_base_url
+      ),
     };
 
     sendMail(mailOptions);
