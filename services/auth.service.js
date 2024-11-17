@@ -113,6 +113,11 @@ exports.signupService = async (details) => {
       password: hashedPassword,
       emailVerificationToken,
     });
+    // await user.save();
+
+    // Skip email verification
+    user.emailVerificationToken = "verified";
+    user.verifiedEmail = true;
     await user.save();
 
     console.log("🚀 ~ exports.signupService= ~ user:", user);
@@ -129,7 +134,7 @@ exports.signupService = async (details) => {
       ),
     };
 
-    sendMail(mailOptions);
+    // sendMail(mailOptions);
 
     return user;
   } catch (error) {
