@@ -43,6 +43,13 @@ const userSchema = new Schema(
     resetPasswordExpires: {
       type: String,
     },
+    userPoints: {
+      type: String,
+      default: 0,
+    },
+    phoneNumber: {
+      type: String,
+    },
   },
   {
     timestamps: true,

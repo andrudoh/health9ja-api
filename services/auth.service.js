@@ -111,6 +111,7 @@ exports.signupService = async (details) => {
       lastName: details.lastName,
       email: details.email,
       password: hashedPassword,
+      phoneNumber: details.phoneNumber,
       emailVerificationToken,
     });
     // await user.save();

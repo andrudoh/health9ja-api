@@ -139,7 +139,7 @@ module.exports = {
     }
   },
 
-  // Edit
+  // End
   postEndTestController: async (req, res, next) => {
     try {
       const { testId } = req.query;
@@ -204,6 +204,59 @@ module.exports = {
         message: "fetched all tests successfully",
         data: {
           allTests,
+        },
+      });
+    } catch (err) {
+      return res.status(500).send({
+        success: false,
+        message: "Something went wrong!",
+        errMessage: err.message,
+      });
+    }
+  },
+
+  // **** Challenges **** //
+  // Add
+  postAddChallengeController: async (req, res, next) => {
+    try {
+      const { userId } = req.query;
+      const test = await testServices.addChallengeService(userId);
+
+      if (test?.error) {
+        return sendError(res, 400, test?.error?.message);
+      }
+
+      return res.status(200).send({
+        success: true,
+        message: "Challenge created successfully",
+        data: {
+          test,
+        },
+      });
+    } catch (err) {
+      return res.status(500).send({
+        success: false,
+        message: "Something went wrong!",
+        errMessage: err.message,
+      });
+    }
+  },
+
+  // End
+  postEndChallengeController: async (req, res, next) => {
+    try {
+      const { challengeId } = req.query;
+      const test = await testServices.endChallengeService(challengeId);
+
+      if (test?.error) {
+        return sendError(res, 400, test?.error?.message);
+      }
+
+      return res.status(200).send({
+        success: true,
+        message: "Ended challeange successfully",
+        data: {
+          test,
         },
       });
     } catch (err) {

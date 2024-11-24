@@ -196,4 +196,87 @@ module.exports = {
       });
     }
   },
+
+  // Leaderboard
+  getLeaderboardController: async (req, res, next) => {
+    try {
+      const leaderboard = await userServices.getLeaderboardService();
+
+      if (leaderboard?.error) {
+        return sendError(res, 400, leaderboard?.error?.message);
+      }
+
+      return res.status(200).send({
+        success: true,
+        message: "Fetched leaderboard successfully",
+        data: {
+          leaderboard,
+        },
+      });
+    } catch (err) {
+      return res.status(500).send({
+        success: false,
+        message: "Something went wrong!",
+        errMessage: err.message,
+      });
+    }
+  },
+
+  // Clear Leaderboard
+  getClearLeaderboardController: async (req, res, next) => {
+    try {
+      const result = await userServices.clearLeaderboardService();
+
+      if (result?.error) {
+        return sendError(res, 400, result?.error?.message);
+      }
+
+      return res.status(200).send({
+        success: true,
+        message: result.message,
+      });
+    } catch (err) {
+      return res.status(500).send({
+        success: false,
+        message: "Something went wrong!",
+        errMessage: err.message,
+      });
+    }
+  },
+
+  // Get user leaderboard position
+  getUserPositionController: async (req, res) => {
+    try {
+      const { userId } = req.query; // User ID from query params
+
+      // Call service function
+      const result = await userServices.getUserLeaderboardPositionService(
+        userId
+      );
+
+      // Handle error
+      if (result?.error) {
+        return res.status(400).send({
+          success: false,
+          message: result.error,
+        });
+      }
+
+      // Respond with user's position
+      return res.status(200).send({
+        success: true,
+        message: "Fetched user's leaderboard position successfully",
+        data: {
+          position: result.position,
+          totalUsers: result.totalUsers,
+        },
+      });
+    } catch (err) {
+      return res.status(500).send({
+        success: false,
+        message: "Something went wrong!",
+        errorMessage: err.message,
+      });
+    }
+  },
 };

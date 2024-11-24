@@ -95,3 +95,76 @@ exports.oneUserTestsService = async (id) => {
     return { error: new Error(error) };
   }
 };
+
+// Leaderboard
+exports.getLeaderboardService = async () => {
+  try {
+    const users = await userModel.find();
+
+    // Filter out users with 0 points and map leaderboard data
+    const leaderboard = users
+      .filter((user) => user.userPoints > 0) // Only include users with points > 0
+      .map((user) => ({
+        name: user.name,
+        phoneNumber: user.phoneNumber,
+        userPoints: user.userPoints,
+      }))
+      .sort((a, b) => b.userPoints - a.userPoints); // Sort by userPoints in descending order
+
+    return leaderboard.length > 0 ? leaderboard : []; // Return empty array if no leaderboard data
+  } catch (error) {
+    return { error: new Error(error) };
+  }
+};
+
+// Clear Leaderboard
+exports.clearLeaderboardService = async () => {
+  try {
+    const users = await userModel.find();
+
+    // Loop through all users and reset points
+    await Promise.all(
+      users.map(async (user) => {
+        user.userPoints = 0;
+        await user.save();
+      })
+    );
+
+    return { message: "Leaderboard cleared successfully" };
+  } catch (error) {
+    return { error: new Error(error) };
+  }
+};
+
+exports.getUserLeaderboardPositionService = async (userId) => {
+  try {
+    // Fetch all users
+    const users = await userModel.find(
+      {},
+      { name: 1, phoneNumber: 1, userPoints: 1 }
+    );
+
+    // Filter out users with zero points
+    const filteredUsers = users.filter((user) => user.userPoints > 0);
+
+    // Sort users by userPoints in descending order
+    const sortedUsers = filteredUsers.sort(
+      (a, b) => b.userPoints - a.userPoints
+    );
+
+    // Find the position of the user
+    const position = sortedUsers.findIndex(
+      (user) => user._id.toString() === userId
+    );
+
+    // If user is not found in the leaderboard
+    if (position === -1) {
+      return { error: "User not found on the leaderboard" };
+    }
+
+    // Return the position (convert to 1-based index)
+    return { position: position + 1, totalUsers: sortedUsers.length };
+  } catch (error) {
+    return { error: error.message };
+  }
+};

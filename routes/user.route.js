@@ -55,4 +55,15 @@ router.delete(
   user.postDeleteUserController
 );
 
+// LEADERBOARD Routes
+
+// GET Leaderboard
+router.get("/leaderboard", user.getLeaderboardController);
+
+// POST Clear Leaderboard
+router.get("/leaderboard/clear", user.getClearLeaderboardController);
+
+// GET User Position on Leaderboard
+router.get("/leaderboard/position", user.getUserPositionController);
+
 module.exports = router;

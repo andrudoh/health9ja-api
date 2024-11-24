@@ -1,5 +1,6 @@
 // Models
 const testModel = require("../models/test.model");
+const challengeModel = require("../models/challenge.model");
 const questionModel = require("../models/question.model");
 const levelModel = require("../models/level.model");
 const userModel = require("../models/user.model");
@@ -303,6 +304,112 @@ exports.allTestsByLevelService = async (id) => {
     const tests = await testModel.find({ levelId: id });
 
     return tests;
+  } catch (error) {
+    return { error: new Error(error) };
+  }
+};
+
+// **** Challenge Mode **** //
+// Add challenge
+exports.addChallengeService = async (user) => {
+  try {
+    const getUser = await userModel.findOne({
+      _id: user,
+    });
+
+    if (!getUser) {
+      return { error: new Error("Error: User not found") };
+    }
+
+    if (getUser.role === "admin") {
+      return { error: new Error("Error: Admin cannot take test") };
+    }
+
+    const name = `${getUser.firstName} ${getUser.lastName}`;
+
+    const questions = await questionModel.find();
+
+    // check if user already took the test for the level
+    const testExist = await challengeModel.findOne({
+      testEnded: false,
+      userId: user,
+    });
+
+    if (testExist) {
+      testExist.testEnded = true;
+      await testExist.save();
+      return testExist;
+    }
+
+    let testQuestions = [];
+
+    const usedIndexes = new Set(); // To keep track of used indexes
+
+    function shuffleArray(array) {
+      // Fisher-Yates shuffle algorithm
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    const shuffledQuestions = shuffleArray(questions); // Shuffle the questions array
+
+    await Promise.all(
+      shuffledQuestions.map(async (item) => {
+        const question = {
+          question: item,
+          chosenAnswer: null,
+          attempted: false,
+          correctAnswer: false,
+        };
+
+        // Find an available random index
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * (testQuestions.length + 1));
+        } while (usedIndexes.has(randomIndex));
+
+        // Insert the question at the chosen random index
+        testQuestions.splice(randomIndex, 0, question);
+        usedIndexes.add(randomIndex);
+        // }
+      })
+    );
+
+    // Trim the array to ensure it doesn't exceed 30 elements
+    if (testQuestions.length > 20) {
+      testQuestions.splice(20);
+    }
+
+    // create challenge
+    const challenge = new challengeModel({
+      userId: user,
+      user: name,
+      questions: testQuestions,
+      totalQuestions: testQuestions.length,
+    });
+    await challenge.save();
+    return challenge;
+  } catch (error) {
+    console.log("🚀 ~ exports.addChallengeService= ~ error:", error);
+    return { error: new Error(error) };
+  }
+};
+
+// End challenge
+exports.endChallengeService = async (challengeId) => {
+  try {
+    const test = await challengeModel.findOne({ _id: challengeId });
+
+    if (!test) {
+      return { error: new Error("Error: Test not found") };
+    }
+
+    test.testEnded = true;
+    await test.save();
+    return test;
   } catch (error) {
     return { error: new Error(error) };
   }
