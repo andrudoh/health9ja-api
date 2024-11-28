@@ -15,8 +15,13 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    username: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
+      required: true,
       min: 6,
       max: 255,
     },
@@ -49,6 +54,7 @@ const userSchema = new Schema(
     },
     phoneNumber: {
       type: String,
+      required: true,
     },
   },
   {

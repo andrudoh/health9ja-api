@@ -109,6 +109,7 @@ exports.signupService = async (details) => {
     const user = new User({
       firstName: details.firstName,
       lastName: details.lastName,
+      username: details.username,
       email: details.email,
       password: hashedPassword,
       phoneNumber: details.phoneNumber,
