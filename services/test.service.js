@@ -435,6 +435,23 @@ exports.findChallengeByIdService = async (challengeId) => {
 // End challenge
 exports.endChallengeService = async (challengeId, challenge) => {
   try {
+    // Check if the user has already ended a challenge today
+    const today = new Date();
+    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+
+    const existingChallenge = await challengeModel.findOne({
+      userId: challenge.userId,
+      testEnded: true,
+      updatedAt: { $gte: startOfDay, $lte: endOfDay },
+    });
+
+    if (existingChallenge) {
+      return {
+        error: new Error("Error: You have already completed a challenge today"),
+      };
+    }
+
     // Find the document by its ID
     let test = await challengeModel.findById(challengeId);
 
