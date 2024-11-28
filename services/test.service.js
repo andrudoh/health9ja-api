@@ -329,17 +329,34 @@ exports.addChallengeService = async (user) => {
 
     const questions = await questionModel.find();
 
-    // check if user already took the test for the level
-    const testExist = await challengeModel.findOne({
-      testEnded: false,
+    // Check if a challenge has been ended by the user today
+    const today = new Date();
+    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+
+    const challengeToday = await challengeModel.findOne({
       userId: user,
+      testEnded: true,
+      updatedAt: { $gte: startOfDay, $lte: endOfDay },
     });
 
-    if (testExist) {
-      testExist.testEnded = true;
-      await testExist.save();
-      return testExist;
+    if (challengeToday) {
+      return {
+        error: new Error("Error: You have already completed a challenge today"),
+      };
     }
+
+    // check if user already took the test for the level
+    // const testExist = await challengeModel.findOne({
+    //   testEnded: false,
+    //   userId: user,
+    // });
+
+    // if (testExist) {
+    //   testExist.testEnded = true;
+    //   await testExist.save();
+    //   return testExist;
+    // }
 
     let testQuestions = [];
 
@@ -419,22 +436,42 @@ exports.findChallengeByIdService = async (challengeId) => {
 exports.endChallengeService = async (challengeId, challenge) => {
   try {
     // Find the document by its ID
-    let test = await challengeModel.findOne({ _id: challengeId });
+    let test = await challengeModel.findById(challengeId);
 
     // Check if the document exists
     if (!test) {
       return { error: new Error("Error: Test not found") };
     }
 
-    // Update the document's properties
-    Object.assign(test, challenge); // Merge `challenge` properties into `test`
-    test.testEnded = true; // Explicitly set `testEnded` to true
+    // Answer questions and calculate correct answers
+    let correctAnswers = 0;
+    challenge.questions.forEach((item) => {
+      if (item.chosenAnswer === item.question.correct_answer) {
+        correctAnswers++;
+      }
+    });
 
-    // Save the updated document
+    // Update test properties
+    test.testEnded = true;
+    test.correctAnswers = correctAnswers;
+
+    // Save the updated test
     await test.save();
+    console.log("🚀 ~ exports.endChallengeService= ~ test:", test);
+
+    // Update user points
+    const user = await userModel.findById(test.userId);
+    if (!user) {
+      return { error: new Error("Error: User not found") };
+    }
+
+    user.userPoints = (user.userPoints || 0) + correctAnswers;
+    await user.save();
+    console.log("🚀 ~ exports.endChallengeService= ~ user:", user);
 
     return test;
   } catch (error) {
+    console.error("Error in endChallengeService:", error);
     return { error: new Error(error) };
   }
 };

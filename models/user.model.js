@@ -44,7 +44,7 @@ const userSchema = new Schema(
       type: String,
     },
     userPoints: {
-      type: String,
+      type: Number,
       default: 0,
     },
     phoneNumber: {
