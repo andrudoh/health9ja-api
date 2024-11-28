@@ -79,4 +79,28 @@ router.get(
   test.getAllTestsByLevelController
 );
 
+// **** Challenge mode **** //
+// get start challenge
+router.get(
+  "/challenge/add",
+  // authorize("user"),
+  // authorize("admin", "user"),
+  //   validate(addTestSchema),
+  test.gettAddChallengeController
+);
+
+router.get(
+  "/challenge/one",
+  // authorize("admin"),
+  test.getChallengeByIdController
+);
+
+// get end challenge
+router.post(
+  "/challenge/end",
+  // authorize("admin", "user"),
+  //   validate(editTestSchema),
+  test.postEndChallengeController
+);
+
 module.exports = router;

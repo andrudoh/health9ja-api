@@ -398,17 +398,41 @@ exports.addChallengeService = async (user) => {
   }
 };
 
-// End challenge
-exports.endChallengeService = async (challengeId) => {
+// Find Challenge by ID
+exports.findChallengeByIdService = async (challengeId) => {
   try {
-    const test = await challengeModel.findOne({ _id: challengeId });
+    // Find the challenge by its ID
+    const challenge = await challengeModel.findById(challengeId);
 
+    // Check if the challenge exists
+    if (!challenge) {
+      return { error: new Error("Error: Challenge not found") };
+    }
+
+    return challenge;
+  } catch (error) {
+    return { error: new Error(error.message || error) };
+  }
+};
+
+// End challenge
+exports.endChallengeService = async (challengeId, challenge) => {
+  try {
+    // Find the document by its ID
+    let test = await challengeModel.findOne({ _id: challengeId });
+
+    // Check if the document exists
     if (!test) {
       return { error: new Error("Error: Test not found") };
     }
 
-    test.testEnded = true;
+    // Update the document's properties
+    Object.assign(test, challenge); // Merge `challenge` properties into `test`
+    test.testEnded = true; // Explicitly set `testEnded` to true
+
+    // Save the updated document
     await test.save();
+
     return test;
   } catch (error) {
     return { error: new Error(error) };

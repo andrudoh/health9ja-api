@@ -217,7 +217,7 @@ module.exports = {
 
   // **** Challenges **** //
   // Add
-  postAddChallengeController: async (req, res, next) => {
+  gettAddChallengeController: async (req, res, next) => {
     try {
       const { userId } = req.query;
       const test = await testServices.addChallengeService(userId);
@@ -242,11 +242,56 @@ module.exports = {
     }
   },
 
+  // Get Challenge by ID
+  getChallengeByIdController: async (req, res, next) => {
+    try {
+      const { challengeId } = req.query;
+
+      // Validate input
+      if (!challengeId) {
+        return res.status(400).send({
+          success: false,
+          message: "Challenge ID is required",
+        });
+      }
+
+      // Fetch the challenge using the service
+      const challenge = await testServices.findChallengeByIdService(
+        challengeId
+      );
+
+      // Handle errors from the service
+      if (challenge?.error) {
+        return sendError(res, 404, challenge?.error?.message);
+      }
+
+      // Return success response
+      return res.status(200).send({
+        success: true,
+        message: "Challenge retrieved successfully",
+        data: {
+          challenge,
+        },
+      });
+    } catch (err) {
+      // Handle unexpected errors
+      return res.status(500).send({
+        success: false,
+        message: "Something went wrong!",
+        errMessage: err.message,
+      });
+    }
+  },
+
   // End
   postEndChallengeController: async (req, res, next) => {
     try {
       const { challengeId } = req.query;
-      const test = await testServices.endChallengeService(challengeId);
+      const { challenge } = req.body;
+      const test = await testServices.endChallengeService(
+        challengeId,
+        challenge
+      );
 
       if (test?.error) {
         return sendError(res, 400, test?.error?.message);
