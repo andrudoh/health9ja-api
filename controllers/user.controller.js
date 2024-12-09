@@ -152,6 +152,7 @@ module.exports = {
   postDeleteUserController: async (req, res, next) => {
     try {
       const { id } = req.query;
+      console.log("🚀 ~ postDeleteUserController: ~ id:", id);
       const user = await userServices.deleteUserService(id);
 
       if (user?.error) {

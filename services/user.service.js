@@ -61,7 +61,11 @@ exports.editUserService = async (details, id) => {
       return { error: new Error("Error: User not found") };
     }
 
-    user.name = details.name;
+    user.firstName = details?.firstName;
+    user.lastName = details?.lastName;
+    user.email = details?.email;
+    user.phoneNumber = details?.phoneNumber;
+    user.username = details?.username;
     await user.save();
     return user;
   } catch (error) {
