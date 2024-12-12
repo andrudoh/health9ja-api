@@ -340,11 +340,11 @@ exports.addChallengeService = async (user) => {
       updatedAt: { $gte: startOfDay, $lte: endOfDay },
     });
 
-    // if (challengeToday) {
-    //   return {
-    //     error: new Error("You have already completed a challenge today"),
-    //   };
-    // }
+    if (challengeToday) {
+      return {
+        error: new Error("You have already completed a challenge today"),
+      };
+    }
 
     // check if user already took the test for the level
     // const testExist = await challengeModel.findOne({
