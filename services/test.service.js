@@ -396,8 +396,8 @@ exports.addChallengeService = async (user) => {
     );
 
     // Trim the array to ensure it doesn't exceed 30 elements
-    if (testQuestions.length > 3) {
-      testQuestions.splice(3);
+    if (testQuestions.length > 20) {
+      testQuestions.splice(20);
     }
 
     // create challenge
