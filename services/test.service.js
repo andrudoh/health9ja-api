@@ -34,19 +34,19 @@ exports.oneTestService = async (id) => {
 exports.addTestService = async (levelId, user) => {
   console.log("🚀 ~ exports.addTestService= ~ levelId, user:", levelId, user);
   try {
-    // const getUser = await userModel.findOne({
-    //   _id: user,
-    // });
+    const getUser = await userModel.findOne({
+      _id: user,
+    });
 
-    // if (!getUser) {
-    //   return { error: new Error("Error: User not found") };
-    // }
+    if (!getUser) {
+      return { error: new Error("Error: User not found") };
+    }
 
-    // if (getUser.role === "admin") {
-    //   return { error: new Error("Error: Admin cannot take test") };
-    // }
+    if (getUser.role === "admin") {
+      return { error: new Error("Error: Admin cannot take test") };
+    }
 
-    // const name = `${getUser.firstName} ${getUser.lastName}`;
+    const name = `${getUser.firstName} ${getUser.lastName}`;
 
     const questions = await questionModel.find({
       levelId: levelId,
@@ -66,7 +66,7 @@ exports.addTestService = async (levelId, user) => {
     const testExist = await testModel.findOne({
       levelId: levelId,
       testEnded: false,
-      // userId: user,
+      userId: user,
     });
     if (testExist) {
       return testExist;
@@ -118,8 +118,8 @@ exports.addTestService = async (levelId, user) => {
 
     // create test
     const test = new testModel({
-      // userId: user,
-      // user: name,
+      userId: user,
+      user: name,
       levelId: levelId,
       levelTitle: level.name,
       questions: testQuestions,

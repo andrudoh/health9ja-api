@@ -7,11 +7,11 @@ const Schema = mongoose.Schema;
 // Test Schema
 const testSchema = new Schema(
   {
-    // userId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     levelId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Level",
