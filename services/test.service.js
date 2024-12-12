@@ -396,8 +396,8 @@ exports.addChallengeService = async (user) => {
     );
 
     // Trim the array to ensure it doesn't exceed 30 elements
-    if (testQuestions.length > 20) {
-      testQuestions.splice(20);
+    if (testQuestions.length > 3) {
+      testQuestions.splice(3);
     }
 
     // create challenge
@@ -433,7 +433,8 @@ exports.findChallengeByIdService = async (challengeId) => {
 };
 
 // End challenge
-exports.endChallengeService = async (challengeId, challenge) => {
+exports.endChallengeService = async (challenge) => {
+  console.log("🚀 ~ exports.endChallengeService= ~ challenge:", challenge);
   try {
     // Check if the user has already ended a challenge today
     const today = new Date();
@@ -453,7 +454,9 @@ exports.endChallengeService = async (challengeId, challenge) => {
     // }
 
     // Find the document by its ID
-    let test = await challengeModel.findById(challengeId);
+    let test = await challengeModel.findOne({ _id: challenge._id });
+    // const test = await testModel.findOne({ _id: testId });
+    console.log("🚀 ~ exports.endChallengeService= ~ test 1: ", test);
 
     // Check if the document exists
     if (!test) {
@@ -471,10 +474,12 @@ exports.endChallengeService = async (challengeId, challenge) => {
     // Update test properties
     test.testEnded = true;
     test.correctAnswers = correctAnswers;
+    test.attemptedQuestions = challenge.attemptedQuestions;
+    test.questions = challenge.questions;
 
     // Save the updated test
     await test.save();
-    console.log("🚀 ~ exports.endChallengeService= ~ test:", test);
+    console.log("🚀 ~ exports.endChallengeService= ~ test 2: ", test);
 
     // Update user points
     const user = await userModel.findById(test.userId);

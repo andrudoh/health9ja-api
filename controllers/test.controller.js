@@ -286,10 +286,10 @@ module.exports = {
   // End
   postEndChallengeController: async (req, res, next) => {
     try {
-      const { challengeId } = req.query;
+      // const { challengeId } = req.query;
       const { challenge } = req.body;
       const test = await testServices.endChallengeService(
-        challengeId,
+        // challengeId,
         challenge
       );
 

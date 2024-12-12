@@ -17,7 +17,7 @@ const userSchema = new Schema(
     },
     username: {
       type: String,
-      required: true,
+      // required: true,
     },
     email: {
       type: String,
@@ -54,7 +54,7 @@ const userSchema = new Schema(
     },
     phoneNumber: {
       type: String,
-      required: true,
+      // required: true,
     },
   },
   {

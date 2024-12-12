@@ -109,6 +109,7 @@ exports.getLeaderboardService = async () => {
     const leaderboard = users
       .filter((user) => user.userPoints > 0) // Only include users with points > 0
       .map((user) => ({
+        userId: user.id,
         name: user.username || `${user.firstName} ${user.lastName}`,
         phoneNumber: user.phoneNumber,
         userPoints: user.userPoints,
