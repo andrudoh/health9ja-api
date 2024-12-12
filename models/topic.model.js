@@ -19,8 +19,11 @@ const topicSchema = new Schema(
       type: String,
       required: true,
     },
+    // image: {
+    //   type: String,
+    // },
     image: {
-      type: String,
+      type: Object,
     },
   },
   {

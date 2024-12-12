@@ -26,18 +26,21 @@ exports.oneTopicService = async (id) => {
 
 // Add
 exports.addTopicService = async (details) => {
+  console.log("🚀 ~ exports.addTopicService= ~ details:", details);
   try {
     // create topic
     const topic = new topicModel({ ...details });
     await topic.save();
     return topic;
   } catch (error) {
+    console.log("🚀 ~ exports.addTopicService= ~ error:", error);
     return { error: new Error(error) };
   }
 };
 
 // Edit
 exports.editTopicService = async (details, id) => {
+  console.log("🚀 ~ exports.editTopicService= ~ details:", details);
   console.log("🚀 ~ exports.editTopicService= ~ id:", id);
   try {
     const topic = await topicModel.findOne({ _id: id });

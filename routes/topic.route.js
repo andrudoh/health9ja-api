@@ -16,7 +16,7 @@ const { addTopicSchema, editTopicSchema } = require("../schemas/topic.schema");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const { authorize } = require("../middlewares/roleCheck");
 const validate = require("../middlewares/validateSchema.middleware");
-const { multerUploads } = require("../middlewares/multer");
+const { multerUploads, saveAsDataUri } = require("../middlewares/multer");
 
 // Routes
 router.get(
@@ -49,6 +49,7 @@ router.post(
   // authorize("admin"),
   // validate(addTopicSchema),
   multerUploads.single("image"),
+  saveAsDataUri,
   topic.postAddTopicController
 );
 
@@ -59,6 +60,7 @@ router.put(
   // authorize("admin"),
   // validate(editTopicSchema),
   multerUploads.single("image"),
+  saveAsDataUri,
   topic.postEditTopicController
 );
 

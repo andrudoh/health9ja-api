@@ -118,6 +118,7 @@ exports.getLeaderboardService = async () => {
 
     return leaderboard.length > 0 ? leaderboard : []; // Return empty array if no leaderboard data
   } catch (error) {
+    console.log("🚀 ~ exports.getLeaderboardService= ~ error:", error);
     return { error: new Error(error) };
   }
 };
@@ -163,9 +164,9 @@ exports.getUserLeaderboardPositionService = async (userId) => {
     );
 
     // If user is not found in the leaderboard
-    if (position === -1) {
-      return { error: "User not found on the leaderboard" };
-    }
+    // if (position === -1) {
+    //   return { error: "User not found on the leaderboard" };
+    // }
 
     // Return the position (convert to 1-based index)
     return { position: position + 1, totalUsers: sortedUsers.length };
