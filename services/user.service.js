@@ -114,7 +114,8 @@ exports.getLeaderboardService = async () => {
         phoneNumber: user.phoneNumber,
         userPoints: user.userPoints,
       }))
-      .sort((a, b) => b.userPoints - a.userPoints); // Sort by userPoints in descending order
+      .sort((a, b) => b.userPoints - a.userPoints) // Sort by userPoints in descending order
+      .slice(0, 10); // Return only the first 10 users
 
     return leaderboard.length > 0 ? leaderboard : []; // Return empty array if no leaderboard data
   } catch (error) {
