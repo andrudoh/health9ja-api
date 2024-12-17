@@ -339,7 +339,7 @@ exports.addChallengeService = async (user) => {
     ) {
       return {
         error: new Error(
-          "Challenge mode is only available from Fridays 12AM to Sundays 12AM"
+          "Challenge mode is only available from Fridays 12AM to Sundays 11:59PM"
         ),
       };
     }
