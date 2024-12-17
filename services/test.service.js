@@ -325,12 +325,31 @@ exports.addChallengeService = async (user) => {
       return { error: new Error("Error: Admin cannot take test") };
     }
 
+    // ONLY AVAILABLE ON WEEKENDS
+    const today = new Date();
+    const currentDay = today.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    const currentHour = today.getHours();
+
+    // Restriction: Only allow challenges from Friday 12AM to Sunday 12AM
+    if (
+      currentDay < 5 || // Before Friday
+      (currentDay === 5 && currentHour < 0) || // Before Friday 12AM
+      (currentDay === 6 && currentHour >= 24) || // After Saturday 11:59PM
+      currentDay > 6 // After Sunday
+    ) {
+      return {
+        error: new Error(
+          "Challenge mode is only available from Fridays 12AM to Sundays 12AM"
+        ),
+      };
+    }
+
     const name = `${getUser.firstName} ${getUser.lastName}`;
 
     const questions = await questionModel.find();
 
     // Check if a challenge has been ended by the user today
-    const today = new Date();
+    // const today = new Date(); // called it above already
     const startOfDay = new Date(today.setHours(0, 0, 0, 0));
     const endOfDay = new Date(today.setHours(23, 59, 59, 999));
 
