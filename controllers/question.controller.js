@@ -25,6 +25,7 @@ module.exports = {
   getAllQuestionsController: async (req, res, next) => {
     try {
       const { levelId } = req.query;
+      
       const allQuestions = await questionServices.allQuestionsService(levelId);
 
       if (allQuestions?.error) {

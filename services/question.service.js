@@ -1,6 +1,6 @@
 // Models
 const questionModel = require("../models/question.model");
-
+const levelModel = require("../models/level.model");
 // All
 exports.allQuestionsService = async (id) => {
   console.log("🚀 ~ exports.allQuestionsService= ~ id:", id);
@@ -9,7 +9,21 @@ exports.allQuestionsService = async (id) => {
     if (!questions) {
       return { error: new Error("Error: Questions not found") };
     }
-    return questions;
+
+    // **** This is a fix for when all levels were deleted, don't touch **** //
+    // Find all levels
+    // const level = await levelModel.findById({ _id: id });
+    // const level = await levelModel.findById({
+    //   _id: "676d2b5ac1327b2c6106abed",
+    // });
+
+    // // Update levelId of questions in the database
+    // await questionModel.updateMany(
+    //   { _id: { $in: questions.map((q) => q._id) } },
+    //   { $set: { levelId: level._id } }
+    // );
+
+    return { questions };
   } catch (error) {
     return { error: new Error(error) };
   }
