@@ -23,7 +23,7 @@ exports.allQuestionsService = async (id) => {
     //   { $set: { levelId: level._id } }
     // );
 
-    return { questions };
+    return questions;
   } catch (error) {
     return { error: new Error(error) };
   }
